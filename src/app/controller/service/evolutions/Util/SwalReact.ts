@@ -51,7 +51,7 @@ export function getReact(subject: string, gender: boolean) {
       text: subject + ' supprimée avec succès',
       type: 'success',
       confirmButtonText: 'ok'
-    }
+    };
   } else {
     SUCCESS_DELETE = {
       title: 'succès',
@@ -100,7 +100,7 @@ export function getReact(subject: string, gender: boolean) {
     'ERROR_INVALID_REF': ERROR_INVALID_REF,
     'ERROR_NOT_ENOUGH_DATA': ERROR_NOT_ENOUGH_DATA,
     'ERROR_UNKNOWN_ERROR': ERROR_UNKNOWN_ERROR
-  }
+  };
 }
 
 

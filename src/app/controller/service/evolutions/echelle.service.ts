@@ -1,17 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Echelle} from "../../model/evolution/echelle.model";
-import {HttpClient} from "@angular/common/http";
+import {Echelle} from '../../model/evolution/echelle.model';
+import {HttpClient} from '@angular/common/http';
 import Swal from 'sweetalert2';
-import {getReact} from "./Util/SwalReact";
+import {getReact} from './Util/SwalReact';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EchelleService {
-
-  private _url = 'http://localhost:8099/evolution/echelle/';
-  private _echelle: Echelle = new Echelle('', '', 0, '', null, '');
-  private _echelles: Array<Echelle>;
 
   private SWAL_REACT = getReact('Echelle', true);
   private SUCCESS_SUCCESS_CREATE = this.SWAL_REACT.SUCCESS_CREATE;
@@ -23,10 +19,7 @@ export class EchelleService {
   private ERROR_NOT_ENOUGH_DATA = this.SWAL_REACT.ERROR_NOT_ENOUGH_DATA;
   private ERROR_UNKNOWN_ERROR = this.SWAL_REACT.ERROR_UNKNOWN_ERROR;
 
-  constructor(private http: HttpClient) {
-    this.getEchellesFromDatabase();
-  }
-
+  private _url = 'http://localhost:8099/evolution/echelle/';
 
   get url(): string {
     return this._url;
@@ -36,12 +29,19 @@ export class EchelleService {
     this._url = value;
   }
 
+  private _echelle: Echelle = new Echelle('', '', 0, '', null, '');
+  private _echelles: Array<Echelle>;
+
   get echelle(): Echelle {
     return this._echelle;
   }
 
   set echelle(value: Echelle) {
     this._echelle = value;
+  }
+
+  constructor(private http: HttpClient) {
+    this.getEchellesFromDatabase();
   }
 
   get echelles(): Array<Echelle> {
@@ -83,7 +83,7 @@ export class EchelleService {
   }
 
   public editEchelle(data){
-    this.http.put(this._url + "edit", data).subscribe(
+    this.http.put(this._url + 'edit', data).subscribe(
       (res) => {
         if (res == -1) {
           Swal(this.ERROR_NOT_ENOUGH_DATA);
@@ -99,7 +99,7 @@ export class EchelleService {
   }
 
   deleteEchelle(data){
-    this.http.delete(this._url + "delete/" + data).subscribe(
+    this.http.delete(this._url + 'delete/' + data).subscribe(
       (res) => {
         if (res == -1) {
           Swal(this.ERROR_INVALID_REF);

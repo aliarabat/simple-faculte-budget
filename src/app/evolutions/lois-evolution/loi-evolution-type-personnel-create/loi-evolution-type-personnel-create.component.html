@@ -7,7 +7,9 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">Reference</div>
                         </div>
-                        <input type="text" class="form-control" id="reference" name="reference" placeholder="Reference" [(ngModel)]="loiEvolutionTypePersonnel.reference">
+                      <input [(ngModel)]="loiEvolutionTypePersonnel.reference" class="form-control" id="reference"
+                             name="reference" placeholder="Reference"
+                             type="text">
                     </div>
                 </div>
                 <br>
@@ -18,7 +20,8 @@
                         </div>
                         <input type="text" class="form-control" id="referenceTypePersonnel"
                                name="referenceTypePersonnel"
-                               placeholder="Reference Type Personnel" [(ngModel)]="loiEvolutionTypePersonnel.referenceTypePersonnel">
+                               [(ngModel)]="loiEvolutionTypePersonnel.referenceTypePersonnel"
+                               placeholder="Reference Type Personnel">
                     </div>
                 </div>
             </div>
@@ -29,8 +32,12 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">Echelon Depart</div>
                         </div>
-                        <select class="form-control" id="echelonDepart" name="echelonDepart" [(ngModel)]="loiEvolutionTypePersonnel.echelonDepart">
-                            <option *ngFor="let _echelon of echelons" [ngValue]="_echelon">{{_echelon.reference}} | {{_echelon.ordre}} | {{_echelon.libelle}}</option>
+                      <select [(ngModel)]="loiEvolutionTypePersonnel.echelonDepart" class="form-control"
+                              id="echelonDepart"
+                              name="echelonDepart">
+                        <option *ngFor="let _echelon of echelons" [ngValue]="_echelon">{{_echelon.reference}} |
+                          {{_echelon.ordre}} | {{_echelon.libelle}}
+                        </option>
                         </select>
                     </div>
                 </div>
@@ -39,8 +46,11 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">Echelon Fin</div>
                         </div>
-                      <select class="form-control" id="echelonFin" name="echelonFin" [(ngModel)]="loiEvolutionTypePersonnel.echelonFin">
-                        <option *ngFor="let __echelon of echelons" [ngValue]="__echelon">{{__echelon.reference}} | {{__echelon.ordre}} | {{__echelon.libelle}}</option>
+                      <select [(ngModel)]="loiEvolutionTypePersonnel.echelonFin" class="form-control" id="echelonFin"
+                              name="echelonFin">
+                        <option *ngFor="let __echelon of echelons" [ngValue]="__echelon">{{__echelon.reference}} |
+                          {{__echelon.ordre}} | {{__echelon.libelle}}
+                        </option>
                       </select>
                     </div>
                 </div>
@@ -61,14 +71,19 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">Loi Evolution</div>
                         </div>
-                        <select class="form-control" id="loiEvolution" name="loiEvolution" [(ngModel)]="loiEvolutionTypePersonnel.loiEvolution">
-                            <option *ngFor="let loiEvolution of loisEvolution" [ngValue]="loiEvolution">{{loiEvolution.reference}} | {{loiEvolution.description}}</option>
+                      <select [(ngModel)]="loiEvolutionTypePersonnel.loiEvolution" class="form-control"
+                              id="loiEvolution"
+                              name="loiEvolution">
+                        <option *ngFor="let loiEvolution of loisEvolution" [ngValue]="loiEvolution">
+                          {{loiEvolution.reference}} | {{loiEvolution.description}}
+                        </option>
                         </select>
                     </div>
                 </div>
             </div>
             <br>
-            <button type="button" class="btn btn-outline-success" (click)="ajouterLoiEvolutionTypePersonnel()">Ajouter</button>
+          <button (click)="ajouterLoiEvolutionTypePersonnel()" class="btn btn-outline-success" type="button">Ajouter
+          </button>
         </div>
     </form>
 </div>

@@ -5,7 +5,9 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text">Reference</div>
                 </div>
-                <input type="text" class="form-control" id="reference" name="reference" placeholder="Reference" [(ngModel)]="loiEvolution.reference">
+              <input [(ngModel)]="loiEvolution.reference" class="form-control" id="reference" name="reference"
+                     placeholder="Reference"
+                     type="text">
             </div>
             <br>
             <div class="form-row">
@@ -14,7 +16,8 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">Date Debut</div>
                         </div>
-                        <input type="date" class="form-control" id="dateDebut" name="dateDebut" [(ngModel)]="loiEvolution.dateDebut">
+                      <input [(ngModel)]="loiEvolution.dateDebut" class="form-control" id="dateDebut" name="dateDebut"
+                             type="date">
                     </div>
                 </div>
                 <div class="col">
@@ -22,7 +25,9 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">Date Fin</div>
                         </div>
-                        <input type="date" class="form-control" id="dateFin" name="dateFin" [min]="loiEvolution.dateDebut" [(ngModel)]="loiEvolution.dateFin">
+                      <input [(ngModel)]="loiEvolution.dateFin" [min]="loiEvolution.dateDebut" class="form-control"
+                             id="dateFin" name="dateFin"
+                             type="date">
                     </div>
                 </div>
             </div>
@@ -31,11 +36,12 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text">Description</div>
                 </div>
-                <textarea class="form-control" id="description" name="description" placeholder="description" [(ngModel)]="loiEvolution.description"
-                          rows="3"></textarea>
+              <textarea [(ngModel)]="loiEvolution.description" class="form-control" id="description" name="description"
+                        placeholder="description"
+                        rows="3"></textarea>
             </div>
             <br>
-            <button type="button" class="btn btn-outline-success" (click)="addLoiEvolution()">Ajouter</button>
+          <button (click)="addLoiEvolution()" class="btn btn-outline-success" type="button">Ajouter</button>
         </div>
     </form>
 </div>

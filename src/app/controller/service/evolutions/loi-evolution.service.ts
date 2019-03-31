@@ -1,19 +1,15 @@
 import {Injectable} from '@angular/core';
-import {LoiEvolution} from "../../model/evolution/loi-evolution.model";
+import {LoiEvolution} from '../../model/evolution/loi-evolution.model';
 import Swal from 'sweetalert2';
-import {HttpClient} from "@angular/common/http";
-import {DatePipe} from "@angular/common";
-import {getReact} from "./Util/SwalReact";
+import {HttpClient} from '@angular/common/http';
+import {DatePipe} from '@angular/common';
+import {getReact} from './Util/SwalReact';
 
 @Injectable({
   providedIn: 'root',
 
 })
 export class LoiEvolutionService {
-
-  private _url = 'http://localhost:8099/evolution/loi/';
-  private _loiEvolution = new LoiEvolution('', '', '', '');
-  private _loisEvolution = new Array<LoiEvolution>();
 
   private SWAL_REACT = getReact('Loi d\'evolution personnel', true);
   private SUCCESS_SUCCESS_CREATE = this.SWAL_REACT.SUCCESS_CREATE;
@@ -29,6 +25,7 @@ export class LoiEvolutionService {
     this.getLoisEvolutionsFromDatabase();
   }
 
+  private _url = 'http://localhost:8099/evolution/loi/';
 
   get url(): string {
     return this._url;
@@ -38,6 +35,8 @@ export class LoiEvolutionService {
     this._url = value;
   }
 
+  private _loiEvolution = new LoiEvolution('', '', '', '');
+
   get loiEvolution(): LoiEvolution {
     return this._loiEvolution;
   }
@@ -45,6 +44,8 @@ export class LoiEvolutionService {
   set loiEvolution(value: LoiEvolution) {
     this._loiEvolution = value;
   }
+
+  private _loisEvolution = [];
 
   get loisEvolution(): LoiEvolution[] {
     return this._loisEvolution;
@@ -55,7 +56,7 @@ export class LoiEvolutionService {
   }
 
   public getLoisEvolutionsFromDatabase() {
-    this.http.get<Array<LoiEvolution>>(this._url + "all").subscribe(res => this._loisEvolution = res)
+    this.http.get<Array<LoiEvolution>>(this._url + 'all').subscribe(res => this._loisEvolution = res);
   }
 
   public ajouterLoiEvolution() {
@@ -94,7 +95,7 @@ export class LoiEvolutionService {
   }
 
   deleteLoiEvolution(data) {
-    this.http.delete(this._url + "delete/" + data).subscribe(
+    this.http.delete(this._url + 'delete/' + data).subscribe(
       (res) => {
         if (res == -1) {
           Swal(this.ERROR_INVALID_REF);

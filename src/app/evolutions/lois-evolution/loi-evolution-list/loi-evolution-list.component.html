@@ -12,20 +12,23 @@
         <tbody>
         <tr *ngFor="let loiEvolution of loisEvolution">
 
-            <td>{{loiEvolution.reference}}</td>
-            <td>{{loiEvolution.dateDebut}}</td>
-            <td>{{loiEvolution.dateFin}}</td>
-            <td>{{loiEvolution.description}}</td>
+          <td>{{loiEvolution.reference}}</td>
+          <td>{{loiEvolution.dateDebut}}</td>
+          <td>{{loiEvolution.dateFin}}</td>
+          <td>{{loiEvolution.description}}</td>
             <td>
-                <button type="button" class="btn btn-outline-warning" (click)="toggleLoiEvolution(loiEvolution)">Modifier</button>
+              <button (click)="toggleLoiEvolution(loiEvolution)" class="btn btn-outline-warning" type="button">
+                Modifier
+              </button>
             </td>
             <td>
-                <button type="button" class="btn btn-outline-danger" (click)="deleteLoiEvolution(loiEvolution.reference)">Supprimer</button>
+              <button (click)="deleteLoiEvolution(loiEvolution.reference)" class="btn btn-outline-danger" type="button">
+                Supprimer
+              </button>
             </td>
         </tr>
         </tbody>
     </table>
-
 
 
   <!-- Modal for editing an LoiEvolution-->
@@ -42,7 +45,9 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text">Reference</div>
                 </div>
-                <input type="text" class="form-control" id="reference" name="reference" placeholder="Reference" [(ngModel)]="localLoiEvolutionToEdit.reference">
+                <input [(ngModel)]="localLoiEvolutionToEdit.reference" class="form-control" id="reference"
+                       name="reference" placeholder="Reference"
+                       type="text">
               </div>
               <br>
               <div class="form-row">
@@ -51,7 +56,9 @@
                     <div class="input-group-prepend">
                       <div class="input-group-text">Date Debut</div>
                     </div>
-                    <input type="date" class="form-control" id="dateDebut" name="dateDebut" [(ngModel)]="localLoiEvolutionToEdit.dateDebut">
+                    <input [(ngModel)]="localLoiEvolutionToEdit.dateDebut" class="form-control" id="dateDebut"
+                           name="dateDebut"
+                           type="date">
                   </div>
                 </div>
                 <div class="col">
@@ -59,7 +66,9 @@
                     <div class="input-group-prepend">
                       <div class="input-group-text">Date Fin</div>
                     </div>
-                    <input type="date" class="form-control" id="dateFin" name="dateFin" [min]="localLoiEvolutionToEdit.dateDebut" [(ngModel)]="localLoiEvolutionToEdit.dateFin">
+                    <input [(ngModel)]="localLoiEvolutionToEdit.dateFin" [min]="localLoiEvolutionToEdit.dateDebut"
+                           class="form-control" id="dateFin"
+                           name="dateFin" type="date">
                   </div>
                 </div>
               </div>
@@ -68,7 +77,9 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text">Description</div>
                 </div>
-                <textarea class="form-control" id="description" name="description" placeholder="description" [(ngModel)]="localLoiEvolutionToEdit.description"
+                <textarea [(ngModel)]="localLoiEvolutionToEdit.description" class="form-control" id="description"
+                          name="description"
+                          placeholder="description"
                           rows="3"></textarea>
               </div>
             </div>

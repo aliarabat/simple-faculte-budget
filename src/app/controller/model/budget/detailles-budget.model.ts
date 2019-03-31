@@ -10,7 +10,8 @@ export class DetaillesBudget {
     public reliquatPayeEstimatif?: number,
     public reliquatPayereel?: number,
     public reliquatNonPayeEstimatif?: number,
-    public reliquatNonPayReel?: number
+    public reliquatNonPayReel?: number,
+    public id?: number
   ) {
   }
 }

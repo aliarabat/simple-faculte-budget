@@ -1,19 +1,13 @@
 import {Injectable} from '@angular/core';
-import {EvolutionPersonnel} from "../../model/evolution/evolution-personnel.model";
-import Swal from "sweetalert2";
-import {HttpClient} from "@angular/common/http";
-import {getReact} from "./Util/SwalReact";
+import {EvolutionPersonnel} from '../../model/evolution/evolution-personnel.model';
+import Swal from 'sweetalert2';
+import {HttpClient} from '@angular/common/http';
+import {getReact} from './Util/SwalReact';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EvolutionPersonnelService {
-
-
-  private _url = 'http://localhost:8099/evolution/evolution-personnel/';
-  private _evolutionPersonnel = new EvolutionPersonnel('', null, '', '', null, null, '');
-  private _newEvolutionPersonnel = new EvolutionPersonnel('', null, '', '', null, null, '');
-  private _evolutionsPersonnel = new Array<EvolutionPersonnel>();
 
 
   private SWAL_REACT = getReact('Evolution personnel', true);
@@ -30,6 +24,7 @@ export class EvolutionPersonnelService {
     this.getEvolutionsPersonnelFromDatabase();
   }
 
+  private _url = 'http://localhost:8099/evolution/evolution-personnel/';
 
   get url(): string {
     return this._url;
@@ -39,6 +34,8 @@ export class EvolutionPersonnelService {
     this._url = value;
   }
 
+  private _evolutionPersonnel = new EvolutionPersonnel('', null, '', '', null, null, '');
+
   get evolutionPersonnel(): EvolutionPersonnel {
     return this._evolutionPersonnel;
   }
@@ -47,6 +44,8 @@ export class EvolutionPersonnelService {
     this._evolutionPersonnel = value;
   }
 
+  private _newEvolutionPersonnel = new EvolutionPersonnel('', null, '', '', null, null, '');
+
   get newEvolutionPersonnel(): EvolutionPersonnel {
     return this._newEvolutionPersonnel;
   }
@@ -54,6 +53,8 @@ export class EvolutionPersonnelService {
   set newEvolutionPersonnel(value: EvolutionPersonnel) {
     this._newEvolutionPersonnel = value;
   }
+
+  private _evolutionsPersonnel = [];
 
   get evolutionsPersonnel(): EvolutionPersonnel[] {
     return this._evolutionsPersonnel;
@@ -108,7 +109,7 @@ export class EvolutionPersonnelService {
   }
 
   deleteEvolutionPersonnel(data) {
-    this.http.delete(this._url + "delete/" + data).subscribe(
+    this.http.delete(this._url + 'delete/' + data).subscribe(
       (res) => {
         if (res == -1) {
           Swal(this.ERROR_INVALID_REF);

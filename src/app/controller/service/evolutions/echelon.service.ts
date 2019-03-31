@@ -1,18 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import Swal from 'sweetalert2';
-import {Echelon} from "../../model/evolution/echelon.model";
-import {getReact} from "./Util/SwalReact";
+import {Echelon} from '../../model/evolution/echelon.model';
+import {getReact} from './Util/SwalReact';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EchelonService {
-  private _url = 'http://localhost:8099/evolution/echelon/';
-  private _echelon = new Echelon('', 0, '');
-  private _newEchelon = new Echelon('', 0, '');
-  private _echelons = new Array<Echelon>();
-
   private SWAL_REACT = getReact('Echelon', false);
   private SUCCESS_SUCCESS_CREATE = this.SWAL_REACT.SUCCESS_CREATE;
   private SUCCESS_SUCCESS_EDIT = this.SWAL_REACT.SUCCESS_EDIT;
@@ -23,11 +18,7 @@ export class EchelonService {
   private ERROR_NOT_ENOUGH_DATA = this.SWAL_REACT.ERROR_NOT_ENOUGH_DATA;
   private ERROR_UNKNOWN_ERROR = this.SWAL_REACT.ERROR_UNKNOWN_ERROR;
 
-
-  constructor(private http: HttpClient) {
-    this.getEchelonsFromDatabase();
-  }
-
+  private _url = 'http://localhost:8099/evolution/echelon/';
 
   get url(): string {
     return this._url;
@@ -37,6 +28,9 @@ export class EchelonService {
     this._url = value;
   }
 
+  private _echelon = new Echelon('', 0, '');
+  private _newEchelon = new Echelon('', 0, '');
+
   get echelon(): Echelon {
     return this._echelon;
   }
@@ -45,6 +39,7 @@ export class EchelonService {
     this._echelon = value;
   }
 
+  private _echelons = [];
 
   get newEchelon(): Echelon {
     return this._newEchelon;
@@ -52,6 +47,10 @@ export class EchelonService {
 
   set newEchelon(value: Echelon) {
     this._newEchelon = value;
+  }
+
+  constructor(private http: HttpClient) {
+    this.getEchelonsFromDatabase();
   }
 
   get echelons(): Echelon[] {
@@ -91,7 +90,7 @@ export class EchelonService {
   }
 
   public modifierEchelon(data) {
-    this.http.put(this._url + "edit", data).subscribe(
+    this.http.put(this._url + 'edit', data).subscribe(
       (res) => {
         if (res == -1) {
           Swal(this.ERROR_NOT_ENOUGH_DATA);
@@ -107,7 +106,7 @@ export class EchelonService {
   }
 
   supprimerEchelon(data) {
-    this.http.delete(this._url + "delete/" + data).subscribe(
+    this.http.delete(this._url + 'delete/' + data).subscribe(
       (res) => {
         if (res == -1) {
           Swal(this.ERROR_INVALID_REF);

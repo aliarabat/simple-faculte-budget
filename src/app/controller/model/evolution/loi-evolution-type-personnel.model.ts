@@ -1,5 +1,5 @@
-import {Echelon} from "./echelon.model";
-import {LoiEvolution} from "./loi-evolution.model";
+import {Echelon} from './echelon.model';
+import {LoiEvolution} from './loi-evolution.model';
 
 export class LoiEvolutionTypePersonnel {
 

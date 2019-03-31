@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BudgetEntiteAdministratifVo} from '../../controller/model/budget/budget-entite-administratif.model';
 import {BudgetService} from '../../controller/service/budget.service';
-import {BudgetSousProjetVo} from '../../controller/model/budget/budget-sous-projet.model';
-import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-budget-entite-administratif',
@@ -44,35 +42,7 @@ export class BudgetEntiteAdministratifComponent implements OnInit {
   }
 
   public deleteEntiteAdministratif(bea: BudgetEntiteAdministratifVo) {
-    const index: number = this.beas.indexOf(bea);
-    if (bea.id==0) {
-      if (index !== -1) {
-        this.beas.splice(index, 1);
-      }
-    }else {
-      Swal({
-        title: 'Etes-vous sure?',
-        text: "Vous ne pouvez pas revenir en arrière!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Oui, supprimer!'
-      }).then((result) => {
-        if (result.value) {
-          if (index !== -1) {
-            this.beas.splice(index, 1);
-          }
-          this.budgetService.deleteBudgetEntiteAdmin(bea.referenceEntiteAdministratif,bea.budgetSousProjetVo.referenceSousProjet,bea.budgetSousProjetVo.budgetFaculteVo.annee).subscribe();
-          //this.budgetService.refreshAllFromBf();
-          Swal(
-            'Supprimmé!',
-            'Vos données ont été supprimés.',
-            'success'
-          );
-        }
-      });
-    }
+    this.budgetService.deleteBudgetEntiteAdmin(bea);
   }
 
   public get sousProjets(){
@@ -113,10 +83,6 @@ export class BudgetEntiteAdministratifComponent implements OnInit {
 
   public getBeaInfos(bear: BudgetEntiteAdministratifVo) {
     this._selectedBea = bear;
-  }
-
-  public get budgetEntiteAdmins() {
-    return this.budgetService.budgetEnAdmins;
   }
 
   get budgetEntiteAdministratifInfo(): BudgetEntiteAdministratifVo {

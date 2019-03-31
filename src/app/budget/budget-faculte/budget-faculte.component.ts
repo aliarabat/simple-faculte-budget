@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BudgetService} from '../../controller/service/budget.service';
-import Swal from 'sweetalert2';
+import * as jsPDF from 'jspdf';
+
 @Component({
   selector: 'app-budget-faculte',
   templateUrl: './budget-faculte.component.html',
@@ -42,30 +43,18 @@ export class BudgetFaculteComponent implements OnInit {
   }
 
   public delete(annee: number) {
-    Swal({
-      title: 'Etes-vous sure?',
-      text: "Vous ne pouvez pas revenir en arrière!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Oui, supprimer!'
-    }).then((result) => {
-      if (result.value) {
-        if (annee!=null){
-          this.budgetService.deleteBudgetFaculte(annee).subscribe();
-          this.budgetService.refreshAllFromBf();
-        }
-        Swal(
-          'Supprimmé!',
-          'Vos données ont été supprimés.',
-          'success'
-        );
-      }
-    });
+    this.budgetService.deleteBudgetFaculte(annee);
   }
 
   public get date(){
     return new Date().getUTCFullYear();
+  }
+
+  public downloadPdf() {
+    let doc = new jsPDF();
+    doc.setPage(1);
+    doc.text(10, 10, 'Bonnjour Ali Arabat');
+    doc.setFont('courier', 'italic');
+    doc.save('budget.pdf');
   }
 }

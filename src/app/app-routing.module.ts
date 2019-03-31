@@ -1,17 +1,16 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {MagasinComponent} from "./magasin/magasin.component";
-import {ReceptionComponent} from "./reception/reception.component";
-import {ExpressionBesoinsComponent} from "./expression-besoins/expression-besoins.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {MagasinComponent} from './magasin/magasin.component';
+import {ReceptionComponent} from './reception/reception.component';
+import {ExpressionBesoinsComponent} from './expression-besoins/expression-besoins.component';
 import {BudgetComponent} from './budget/budget.component';
 import {MentionsComponent} from './evaluation-personnel/mentions/mentions.component';
 import {NotesComponent} from './evaluation-personnel/notes/notes.component';
 import {ElementsComponent} from './evaluation-personnel/elements/elements.component';
-import {EvaluationPersonnelComponent} from './evaluation-personnel/evaluation-personnel.component';
-import {CommandesComponent} from "./commandes/commandes.component";
-import {ProduitsComponent} from "./produits/produits.component";
-import {LivraisonsComponent} from "./livraisons/livraisons.component";
-import {EvolutionsComponent} from "./evolutions/evolutions.component";
+import {CommandesComponent} from './commandes/commandes.component';
+import {ProduitsComponent} from './produits/produits.component';
+import {LivraisonsComponent} from './livraisons/livraisons.component';
+import {EvolutionsComponent} from './evolutions/evolutions.component';
 import {EtudiantAdminComponent} from './etudiant-admin/etudiant-admin.component';
 import {CommandeCreateComponent} from './commandes/commande-create/commande-create.component';
 import {CommandeListComponent} from './commandes/commande-list/commande-list.component';
@@ -46,16 +45,16 @@ const routes: Routes = [
 
   { path: 'produit',component:ProduitsComponent},
   { path: 'Livraison',component:LivraisonsComponent},
-  { path: 'evolution', component: EvolutionsComponent},
+  {path: 'evolution', component: EvolutionsComponent},
 
   //commandes
 
-  { path: 'commandeCreate', component: CommandeCreateComponent},
-  { path: 'commandeListe', component: CommandeListComponent},
+  {path: 'commandeCreate', component: CommandeCreateComponent},
+  {path: 'commandeListe', component: CommandeListComponent},
 
   //expressionBesoin
-  { path: 'expressionBesoinCreate', component: ExpressionBesoinCreateComponent},
-  { path: 'expressionBesoinList', component: ExpressionBesoinListComponent},
+  {path: 'expressionBesoinCreate', component: ExpressionBesoinCreateComponent},
+  {path: 'expressionBesoinList', component: ExpressionBesoinListComponent},
 
 ];
 

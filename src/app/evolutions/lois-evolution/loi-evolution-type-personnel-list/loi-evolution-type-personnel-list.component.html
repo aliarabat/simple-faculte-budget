@@ -20,11 +20,15 @@
       <td>{{loiEvolutionTypePersonnel.nombreAnnees}}</td>
       <td>{{loiEvolutionTypePersonnel.loiEvolution.reference}}</td>
       <td>
-        <button type="button" class="btn btn-outline-warning" (click)="toggleLoiEvolutionTypePersonnel(loiEvolutionTypePersonnel)">Modifier
+        <button (click)="toggleLoiEvolutionTypePersonnel(loiEvolutionTypePersonnel)" class="btn btn-outline-warning"
+                type="button">Modifier
         </button>
       </td>
       <td>
-        <button type="button" class="btn btn-outline-danger" (click)="deleteLoiEvolutionTypePersonnel(loiEvolutionTypePersonnel.reference)">Supprimer</button>
+        <button (click)="deleteLoiEvolutionTypePersonnel(loiEvolutionTypePersonnel.reference)"
+                class="btn btn-outline-danger"
+                type="button">Supprimer
+        </button>
       </td>
     </tr>
     </tbody>
@@ -46,7 +50,9 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text">Reference</div>
                 </div>
-                <input type="text" class="form-control" id="reference" name="reference" placeholder="Reference"  [(ngModel)]="loiEvolutionTypePersonnelToEdit.reference">
+                <input [(ngModel)]="loiEvolutionTypePersonnelToEdit.reference" class="form-control" id="reference"
+                       name="reference" placeholder="Reference"
+                       type="text">
               </div>
               <br>
               <div class="input-group mb-2" data-toggle="tooltip" title="Entrer la reference du personnel">
@@ -68,7 +74,8 @@
                     <select class="form-control" id="echelonDepart" name="echelonDepart"
                             [(ngModel)]="loiEvolutionTypePersonnelToEdit.echelonDepart">
                       <option *ngFor="let _echelon of echelons" [ngValue]="_echelon">{{_echelon.reference}}
-                        | {{_echelon.ordre}} | {{_echelon.libelle}}</option>
+                        | {{_echelon.ordre}} | {{_echelon.libelle}}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -80,7 +87,8 @@
                     <select class="form-control" id="echelonFin" name="echelonFin"
                             [(ngModel)]="loiEvolutionTypePersonnelToEdit.echelonFin">
                       <option *ngFor="let __echelon of echelons" [ngValue]="__echelon">{{__echelon.reference}}
-                        | {{__echelon.ordre}} | {{__echelon.libelle}}</option>
+                        | {{__echelon.ordre}} | {{__echelon.libelle}}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -104,7 +112,8 @@
                     <select class="form-control" id="loiEvolution" name="loiEvolution"
                             [(ngModel)]="loiEvolutionTypePersonnelToEdit.loiEvolution">
                       <option *ngFor="let loiEvolution of loisEvolution"
-                              [ngValue]="loiEvolution">{{loiEvolution.reference}}| {{loiEvolution.description}}</option>
+                              [ngValue]="loiEvolution">{{loiEvolution.reference}}| {{loiEvolution.description}}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -114,7 +123,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Quitter</button>
-          <button type="button" class="btn btn-outline-primary" (click)="editLoiEvolutionTypePersonnel()">Sauvegarder</button>
+          <button (click)="editLoiEvolutionTypePersonnel()" class="btn btn-outline-primary" type="button">Sauvegarder
+          </button>
         </div>
       </div>
     </div>

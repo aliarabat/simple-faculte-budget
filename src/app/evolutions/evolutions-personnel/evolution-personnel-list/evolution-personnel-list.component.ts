@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {EvolutionPersonnelService} from "../../../controller/service/evolutions/evolution-personnel.service";
-import {EvolutionPersonnel} from "../../../controller/model/evolution/evolution-personnel.model";
-import {EchelonService} from "../../../controller/service/evolutions/echelon.service";
-import {LoiEvolutionTypePersonnelService} from "../../../controller/service/evolutions/loi-evolution-type-personnel.service";
+import {EvolutionPersonnelService} from '../../../controller/service/evolutions/evolution-personnel.service';
+import {EvolutionPersonnel} from '../../../controller/model/evolution/evolution-personnel.model';
+import {EchelonService} from '../../../controller/service/evolutions/echelon.service';
+import {LoiEvolutionTypePersonnelService} from '../../../controller/service/evolutions/loi-evolution-type-personnel.service';
 
 @Component({
   selector: 'app-evolution-personnel-list',
@@ -14,7 +14,7 @@ export class EvolutionPersonnelListComponent implements OnInit {
   public newLocalEvolutionPersonnel = new EvolutionPersonnel('', null, '', '', null, null, '');
 
 
-  constructor(private evolutionPersonnelService: EvolutionPersonnelService,  private echelonService:EchelonService, private loiEvolutionTypePersonnelService:LoiEvolutionTypePersonnelService) {
+  constructor(private evolutionPersonnelService: EvolutionPersonnelService, private echelonService: EchelonService, private loiEvolutionTypePersonnelService: LoiEvolutionTypePersonnelService) {
   }
 
   public get evolutionsPersonnel() {
@@ -22,14 +22,14 @@ export class EvolutionPersonnelListComponent implements OnInit {
   }
 
   public get newEvolutionPersonnel() {
-    return this.evolutionPersonnelService.newEvolutionPersonnel
+    return this.evolutionPersonnelService.newEvolutionPersonnel;
   }
 
-  public get echelons(){
+  public get echelons() {
     return this.echelonService.echelons;
   }
 
-  public get loisEvolutionTypePersonnel(){
+  public get loisEvolutionTypePersonnel() {
     return this.loiEvolutionTypePersonnelService.loisEvolutionTypePersonnel;
   }
 
@@ -40,11 +40,11 @@ export class EvolutionPersonnelListComponent implements OnInit {
     this.newLocalEvolutionPersonnel = new EvolutionPersonnel(data.reference, data.loiEvolutionTypePersonnel, data.referencePersonnel, data.referenceTypePersonnel, data.echelonDepart, data.echelonFin, data.dateEvolution);
   }
 
-  modifierEvolutionPersonnel(){
+  modifierEvolutionPersonnel() {
     this.evolutionPersonnelService.modifierEvolutionPersonnel(this.newLocalEvolutionPersonnel);
   }
 
-  supprimerEvolutionPersonnel(data){
+  supprimerEvolutionPersonnel(data) {
     this.evolutionPersonnelService.deleteEvolutionPersonnel(data);
   }
 

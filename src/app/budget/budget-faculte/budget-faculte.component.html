@@ -86,7 +86,11 @@
                 <td>{{bf.annee}}</td>
                 <td>{{bf.detaillesBudgetVo.creditOuvertEstimatif}}</td>
                 <td>{{bf.detaillesBudgetVo.creditOuvertReel}}</td>
-                <td><button type="button" (click)="delete(bf.annee)" class="btn btn-outline-danger fa fa-trash-o"></button></td>
+                <td>
+                  <button (click)="delete(bf.annee)" class="btn btn-outline-danger fa fa-trash-o"
+                          type="button"></button>
+                  <button (click)="downloadPdf()" class="btn btn-outline-secondary fa fa-print"></button>
+                </td>
               </tr>
             </tbody>
           </table>

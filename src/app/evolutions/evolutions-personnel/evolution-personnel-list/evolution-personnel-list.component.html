@@ -61,7 +61,8 @@
                 <select class="form-control" id="loiEvolutionTypePersonnel" name="loiEvolutionTypePersonnel"
                         [(ngModel)]="newLocalEvolutionPersonnel.loiEvolutionTypePersonnel">
                   <option *ngFor="let loiEvolutionTypePersonnel of loisEvolutionTypePersonnel"
-                          [ngValue]="loiEvolutionTypePersonnel">{{loiEvolutionTypePersonnel.reference}}</option>
+                          [ngValue]="loiEvolutionTypePersonnel">{{loiEvolutionTypePersonnel.reference}}
+                  </option>
                 </select>
               </div>
               <br>
@@ -95,7 +96,8 @@
                             [(ngModel)]="newLocalEvolutionPersonnel.echelonDepart">
                       <option *ngFor="let echelon of echelons" [ngValue]="echelon">{{echelon.reference}}
                         | {{echelon.ordre}}
-                        | {{echelon.libelle}}</option>
+                        | {{echelon.libelle}}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -108,7 +110,8 @@
                             [(ngModel)]="newLocalEvolutionPersonnel.echelonFin">
                       <option *ngFor="let echelon of echelons" [ngValue]="echelon">{{echelon.reference}}
                         | {{echelon.ordre}}
-                        | {{echelon.libelle}}</option>
+                        | {{echelon.libelle}}
+                      </option>
                     </select>
                   </div>
                 </div>
