@@ -67,6 +67,7 @@ import {EtudiantAdminComponent} from './etudiant-admin/etudiant-admin.component'
 import {EtudiantCreateComponent} from './etudiant-admin/etudiant-create/etudiant-create.component';
 import {EtudiantListComponent} from './etudiant-admin/etudiant-list/etudiant-list.component';
 import {DetaillesComponent} from './budget/detailles/detailles.component';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -140,7 +141,8 @@ import {DetaillesComponent} from './budget/detailles/detailles.component';
     HttpClientModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

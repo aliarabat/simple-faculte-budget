@@ -25,10 +25,6 @@ export class BudgetCompteBudgitaireComponent implements OnInit {
   public get budgetSousProjetClone() {
     return this.budgetService.budgetSousProjetCreateClone2;
   }
-  /*
-  public get budgetCompteBudgitaires() {
-    return this.budgetService.budgetCbs;
-  }*/
 
   public get compteBudgitaire() {
     return this.budgetService.compteBudgitaireCreate;

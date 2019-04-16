@@ -301,9 +301,6 @@ export class BudgetService {
   }
 
   get bsps(): Array<BudgetSousProjetVo> {
-    if (this._budgetFaculteCreate.budgetSousProjetVo == null) {
-      this._budgetFaculteCreate.budgetSousProjetVo = [];
-    }
     return this._budgetFaculteCreate.budgetSousProjetVo;
   }
 
@@ -411,22 +408,41 @@ export class BudgetService {
 
   //permet de sauvegarder l'objet tout entier
   public saveAllInBudgetFaculte() {
-    this.http.post<BudgetFaculteVo>(this._url_bf, this._budgetFaculteCreate).subscribe(
-      data => {
-        if (data != null) {
-          this.refreshAllFromBf();
-          Swal({
-            type: 'success',
-            title: 'Saved',
-            text: 'Saved successfully!'
-          });
-          console.log('Ok');
+    if (this._budgetFaculteCreate.budgetSousProjetVo == null || undefined) {
+      Swal({
+        type: 'error',
+        title: 'Error',
+        text: 'Merci de remplir les budgets!'
+      });
+    } else {
+      this.http.post<BudgetFaculteVo>(this._url_bf, this._budgetFaculteCreate).subscribe(
+        data => {
+          if (data != null) {
+            this.refreshAllFromBf();
+            Swal({
+              title: 'Are you sure?',
+              text: 'Voulez-vous vraiment sauvegarder tous!',
+              type: 'info',
+              showCancelButton: true,
+              confirmButtonColor: '#11d68b',
+              cancelButtonColor: '#ddc0b3',
+              confirmButtonText: 'Oui, sauvegarder!'
+            }).then((result) => {
+              if (result.value) {
+                Swal({
+                  type: 'success',
+                  title: 'succés',
+                  text: 'Sauvegardé avec succées!'
+                });
+              }
+            });
+          }
+        },
+        error => {
+          console.log(error);
         }
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      );
+    }
   }
 
   /* DELETE: delete the budgetFaculte from the server */
@@ -461,7 +477,6 @@ export class BudgetService {
 
   /* DELETE: delete the budget sous projet from the server */
   public deleteBudgetSousProjet(bsp:BudgetSousProjetVo) {
-    console.log(bsp);
     if (bsp.id == 0) {
       const index: number = this._budgetFaculteCreate.budgetSousProjetVo.indexOf(bsp);
       if (index !== -1) {
@@ -480,9 +495,15 @@ export class BudgetService {
         if (result.value) {
           this.http.delete(this._url_bsp + 'referenceSousProjet/' + bsp.referenceSousProjet + '/annee/' + bsp.budgetFaculteVo.annee).subscribe(
             data => {
-              if (this._budgetSousProjetCreate.referenceSousProjet == '') {
+              Swal(
+                'Supprimmé!',
+                'Vos données ont été supprimés.',
+                'success'
+              );
+              if (this._budgetSousProjetCreate.referenceSousProjet == undefined || null) {
+                console.log('bonsoir');
                 this.findAllByAnnee();
-              } else if (this._budgetEntiteAdministratifCreate.referenceEntiteAdministratif == '') {
+              } else if (this._budgetEntiteAdministratifCreate.referenceEntiteAdministratif == undefined || null) {
                 this.findAllByAnneeAndBudgetSousProjet();
               } else {
                 this.findAllByAnneeAndBudgetSousProjetAndBudgetEntitiAdmin();
@@ -490,11 +511,6 @@ export class BudgetService {
             }, error => {
               console.log(error);
             }
-          );
-          Swal(
-            'Supprimmé!',
-            'Vos données ont été supprimés.',
-            'success'
           );
         }
       });
@@ -521,9 +537,9 @@ export class BudgetService {
         if (result.value) {
           this.http.delete(this._url_bea + 'referenceEntiteAdmin/' + bea.referenceEntiteAdministratif + '/referenceSousProjet/' + bea.budgetSousProjetVo.referenceSousProjet + '/annee/' + bea.budgetSousProjetVo.budgetFaculteVo.annee).subscribe(
             data => {
-              if (this._budgetSousProjetCreate.referenceSousProjet == null) {
+              if (this._budgetSousProjetCreate.referenceSousProjet == null || undefined) {
                 this.findAllByAnnee();
-              } else if (this._budgetEntiteAdministratifCreate.referenceEntiteAdministratif == null) {
+              } else if (this._budgetEntiteAdministratifCreate.referenceEntiteAdministratif == null || undefined) {
                 this.findAllByAnneeAndBudgetSousProjet();
               } else {
                 this.findAllByAnneeAndBudgetSousProjetAndBudgetEntitiAdmin();
@@ -562,9 +578,9 @@ export class BudgetService {
         if (result.value) {
           this.http.delete(this._url_bcb + 'referenceCompteBudgitaire/' + bcb.referenceCompteBudgitaire).subscribe(
             data => {
-              if (this._budgetSousProjetCreate.referenceSousProjet == null) {
+              if (this._budgetSousProjetCreate.referenceSousProjet == null || undefined) {
                 this.findAllByAnnee();
-              } else if (this._budgetEntiteAdministratifCreate.referenceEntiteAdministratif == null) {
+              } else if (this._budgetEntiteAdministratifCreate.referenceEntiteAdministratif == null || undefined) {
                 this.findAllByAnneeAndBudgetSousProjet();
               } else {
                 this.findAllByAnneeAndBudgetSousProjetAndBudgetEntitiAdmin();
@@ -620,7 +636,6 @@ export class BudgetService {
         data => {
           if (data != null) {
             this._budgetFaculteCreate.budgetSousProjetVo = data;
-            //this._budgetFaculteCreate.budgetSousProjetVo=data;
           }
         }, error => {
           console.log(error);
@@ -723,9 +738,23 @@ export class BudgetService {
     }
   }
 
+  //searchAllByCriteriaAnneMinAndAnneMax
+  public findByCreteriaAnneMinAndAnneMax() {
+    if (this._budgetFaculteCreate1.annee != null && this._budgetFaculteCreate.annee != null) {
+      this.findAllByAnneeMinAndAnneeMax();
+    } else if (this._budgetFaculteCreate.annee != null) {
+      this.findAllByAnnee();
+    } else {
+      Swal({
+        type: 'error',
+        title: 'Infos invalide',
+        text: 'Merci de remplir les annees manquants!'
+      });
+    }
+  }
   //find all info by annee min and annee max
   public findAllByAnneeMinAndAnneeMax(){
-       this.http.get<Array<BudgetFaculteVo>>(this._url_bf+"anneeMin/"+this.budgetFaculteCreate.annee+"/anneeMax/"+this.budgetFaculteCreate1.annee).subscribe(
+    this.http.get<Array<BudgetFaculteVo>>(this._url_bf + 'anneeMin/' + this._budgetFaculteCreate.annee + '/anneeMax/' + this._budgetFaculteCreate1.annee).subscribe(
         data=>{
           if (data!=null){
             this._budgetFacultes = [];
@@ -775,70 +804,127 @@ export class BudgetService {
         console.log(error);
       }
     );
+
   }
 
   //permet de rafraichair les champs en se basant sur l'objet supprimmé
   public refreshAllFromBf(){
-    this._budgetFaculteCreate = new BudgetFaculteVo();
+    this._budgetFaculteCreate.detaillesBudgetVo = new DetaillesBudget();
     this._budgetFacultes = [];
     this._budgetFaculteCreate.budgetSousProjetVo = [];
     this._beas = [];
     this._bcbs = [];
   }
 
+  //update budget Faculte
+  /*public updateBudgetFaculte(){
+    let _bfFind:BudgetFaculteVo=this._budgetFacultes.find(bf=>bf.annee==this._budgetFaculteCreate.annee);
+    let budgetFaculteClone:BudgetFaculteVo=new BudgetFaculteVo();
+    let reelConsomme=parseFloat(_bfFind.detaillesBudgetVo.creditOuvertReel)-parseFloat(_bfFind.detaillesBudgetVo.reliquatReel);
+    let estimatifConsomme=parseFloat(_bfFind.detaillesBudgetVo.reliquatEstimatif)-parseFloat(_bfFind.detaillesBudgetVo.reliquatEstimatif);
+    if (parseFloat(this._budgetFaculteCreate.detaillesBudgetVo.creditOuvertReel)<reelConsomme|| parseFloat(this._budgetFaculteCreate.detaillesBudgetVo.creditOuvertEstimatif)<estimatifConsomme){
+      Swal({
+        type: 'error',
+        title: 'Error',
+        text: 'Le reliquat Estimatif/Reel n\'est pas suffisant \n pour les sous projet!'
+      });
+    }
+  }*/
   //update budget sous projet
   public updateBudgetSousProjet(refSousProjet:string){
     this._budgetFaculteCreate.budgetSousProjetVo.forEach(bsp => {
       if (bsp.referenceSousProjet==refSousProjet){
         const id = bsp.detaillesBudgetVo.id;
-        bsp.detaillesBudgetVo = this._detaillesBudgetVo1;
-        bsp.detaillesBudgetVo.id = id;
+        let reelConsomme: number = parseFloat(bsp.detaillesBudgetVo.creditOuvertReel) - parseFloat(bsp.detaillesBudgetVo.reliquatReel);
+        let estimatifConsomme: number = parseFloat(bsp.detaillesBudgetVo.creditOuvertEstimatif) - parseFloat(bsp.detaillesBudgetVo.reliquatEstimatif);
+        let nvReliquatBudgetFaculteReel: number = parseFloat(bsp.detaillesBudgetVo.creditOuvertReel) + parseFloat(this._budgetFaculteCreate.detaillesBudgetVo.reliquatReel);
+        let nvReliquatBudgetFaculteEstimatif: number = parseFloat(bsp.detaillesBudgetVo.creditOuvertEstimatif) + parseFloat(this._budgetFaculteCreate.detaillesBudgetVo.reliquatEstimatif);
         let budgetSousProjetClone: BudgetSousProjetVo = new BudgetSousProjetVo(bsp.id, refSousProjet);
-        budgetSousProjetClone.detaillesBudgetVo = bsp.detaillesBudgetVo;
-        //console.log(budgetSousProjetClone);
-        let sousprojet = this._budgetFaculteCreate.budgetSousProjetVo.find(bsp => bsp.referenceSousProjet == refSousProjet);
-        sousprojet = budgetSousProjetClone;
-        this._detaillesBudgetVo1 = new DetaillesBudget();
-        console.log(this._budgetFaculteCreate);
+        budgetSousProjetClone.detaillesBudgetVo = this._detaillesBudgetVo1;
+        if (nvReliquatBudgetFaculteReel < parseFloat(budgetSousProjetClone.detaillesBudgetVo.creditOuvertReel)
+          || nvReliquatBudgetFaculteEstimatif < parseFloat(budgetSousProjetClone.detaillesBudgetVo.reliquatEstimatif)) {
+          Swal({
+            type: 'error',
+            title: 'Error',
+            text: 'Crédit ouvert reel/estimatif de budget faculte est insiffaisant!'
+          });
+        } else if (parseFloat(budgetSousProjetClone.detaillesBudgetVo.creditOuvertReel) < reelConsomme
+          || parseFloat(budgetSousProjetClone.detaillesBudgetVo.reliquatEstimatif) < estimatifConsomme) {
+          Swal({
+            type: 'error',
+            title: 'Erreur',
+            text: 'Il faut entrer un credit superieur au égale à ' + reelConsomme
+          });
+        } else {
+          bsp.detaillesBudgetVo.creditOuvertReel = this._detaillesBudgetVo1.creditOuvertReel;
+          bsp.detaillesBudgetVo.creditOuvertEstimatif = this._detaillesBudgetVo1.creditOuvertEstimatif;
+          bsp.detaillesBudgetVo.engagePaye = this._detaillesBudgetVo1.engagePaye;
+          bsp.detaillesBudgetVo.engageNonPaye = this._detaillesBudgetVo1.engageNonPaye;
+          budgetSousProjetClone.detaillesBudgetVo = bsp.detaillesBudgetVo;
+          let sousprojet = this._budgetFaculteCreate.budgetSousProjetVo.find(bsp => bsp.referenceSousProjet == refSousProjet);
+          sousprojet = budgetSousProjetClone;
+        }
+        budgetSousProjetClone = new BudgetSousProjetVo();
       }
     });
+    this._detaillesBudgetVo1 = new DetaillesBudget();
   }
 
   //update budget sous projet
   public updateBudgetEntiteAdministratif(refEntiteAdministratif:string){
     this._beas.forEach(bea=>{
       if (bea.referenceEntiteAdministratif==refEntiteAdministratif){
-        const id = bea.detaillesBudgetVo.id;
-        bea.detaillesBudgetVo = this._detaillesBudgetVo2;
-        bea.detaillesBudgetVo.id = id;
-        //console.log(this._budgetFaculteCreate.budgetSousProjetVo.indexOf(bea.budgetSousProjetVo));
+        let reelConsomme: number = parseFloat(bea.detaillesBudgetVo.creditOuvertReel) - parseFloat(bea.detaillesBudgetVo.reliquatReel);
+        let estimatifConsomme: number = parseFloat(bea.detaillesBudgetVo.creditOuvertEstimatif) - parseFloat(bea.detaillesBudgetVo.reliquatEstimatif);
+        let budgetEntiteAdminClone: BudgetEntiteAdministratifVo = new BudgetEntiteAdministratifVo(bea.id, refEntiteAdministratif);
+        budgetEntiteAdminClone.detaillesBudgetVo = this._detaillesBudgetVo2;
         this._budgetFaculteCreate.budgetSousProjetVo.forEach(bsp => {
           if (bsp.referenceSousProjet == bea.budgetSousProjetVo.referenceSousProjet) {
-            if (bsp.budgetEntiteAdministratifVo == null) {
-              bsp.budgetEntiteAdministratifVo = [];
-            }
-            let budgetEntiteAdminClone: BudgetEntiteAdministratifVo = new BudgetEntiteAdministratifVo(bea.id, refEntiteAdministratif);
-            budgetEntiteAdminClone.detaillesBudgetVo = bea.detaillesBudgetVo;
-            let entiteadminstratif = bsp.budgetEntiteAdministratifVo.find(ea => ea.referenceEntiteAdministratif == refEntiteAdministratif);
-            if (entiteadminstratif == null) {
-              bsp.budgetEntiteAdministratifVo.push(budgetEntiteAdminClone);
+            let nvReliquatBudgetSousProjetReel: number = parseFloat(bsp.detaillesBudgetVo.creditOuvertReel) + parseFloat(bea.budgetSousProjetVo.detaillesBudgetVo.reliquatReel);
+            let nvReliquatBudgetSousProjetEstimatif: number = parseFloat(bsp.detaillesBudgetVo.creditOuvertEstimatif) + parseFloat(bea.budgetSousProjetVo.detaillesBudgetVo.reliquatEstimatif);
+            if (nvReliquatBudgetSousProjetReel < parseFloat(budgetEntiteAdminClone.detaillesBudgetVo.creditOuvertReel)
+              || nvReliquatBudgetSousProjetEstimatif < parseFloat(budgetEntiteAdminClone.detaillesBudgetVo.reliquatEstimatif)) {
+              Swal({
+                type: 'error',
+                title: 'Erreur',
+                text: 'Crédit ouvert reel/estimatif de budget sous projet est insiffaisant!'
+              });
+            } else if (parseFloat(budgetEntiteAdminClone.detaillesBudgetVo.creditOuvertReel) < reelConsomme
+              || parseFloat(budgetEntiteAdminClone.detaillesBudgetVo.reliquatEstimatif) < estimatifConsomme) {
+              Swal({
+                type: 'error',
+                title: 'Erreur',
+                text: 'Il faut entrer un credit superieur au égale à ' + reelConsomme
+              });
             } else {
-              entiteadminstratif = budgetEntiteAdminClone;
+              if (bsp.budgetEntiteAdministratifVo == null) {
+                bsp.budgetEntiteAdministratifVo = [];
+              }
+              bea.detaillesBudgetVo.creditOuvertReel = this._detaillesBudgetVo2.creditOuvertReel;
+              bea.detaillesBudgetVo.creditOuvertEstimatif = this._detaillesBudgetVo2.creditOuvertEstimatif;
+              bea.detaillesBudgetVo.engagePaye = this._detaillesBudgetVo2.engagePaye;
+              bea.detaillesBudgetVo.engageNonPaye = this._detaillesBudgetVo2.engageNonPaye;
+              budgetEntiteAdminClone.detaillesBudgetVo = bea.detaillesBudgetVo;
+              console.log(budgetEntiteAdminClone.detaillesBudgetVo);
+              let entiteadminstratif = bsp.budgetEntiteAdministratifVo.find(ea => ea.referenceEntiteAdministratif == refEntiteAdministratif);
+              if (entiteadminstratif == null) {
+                bsp.budgetEntiteAdministratifVo.push(budgetEntiteAdminClone);
+              } else {
+                entiteadminstratif = budgetEntiteAdminClone;
+              }
             }
-            console.log(this._budgetFaculteCreate);
           }
         });
-        this._detaillesBudgetVo2 = new DetaillesBudget();
+        budgetEntiteAdminClone.detaillesBudgetVo = new DetaillesBudget();
       }
     });
+    this._detaillesBudgetVo2 = new DetaillesBudget();
   }
 
   public updateBudgetCompteBudgitaire(refCompteBudgitaire:string){
     this._bcbs.forEach(bcb=>{
       if (bcb.referenceCompteBudgitaire==refCompteBudgitaire){
         const id = bcb.detaillesBudgetVo.id;
-        bcb.detaillesBudgetVo = this._detaillesBudgetVo3;
-        bcb.detaillesBudgetVo.id = id;
         //bcb.compteBudgitaireVo=this._compteBudgitaireCreate;
         this._budgetFaculteCreate.budgetSousProjetVo.forEach(bsp => {
           if (bsp.referenceSousProjet == bcb.budgetEntiteAdministratifVo.budgetSousProjetVo.referenceSousProjet) {
@@ -850,28 +936,46 @@ export class BudgetService {
             }
             bsp.budgetEntiteAdministratifVo.forEach(bea => {
               if (bea.referenceEntiteAdministratif == bcb.budgetEntiteAdministratifVo.referenceEntiteAdministratif) {
+                let reelConsomme: number = parseFloat(bcb.detaillesBudgetVo.creditOuvertReel) - parseFloat(bcb.detaillesBudgetVo.reliquatReel);
+                let estimatifConsomme: number = parseFloat(bcb.detaillesBudgetVo.creditOuvertEstimatif) - parseFloat(bcb.detaillesBudgetVo.reliquatEstimatif);
+                let nvReliquatBudgeEntiteAdminReel: number = parseFloat(bea.detaillesBudgetVo.creditOuvertReel) + parseFloat(bcb.budgetEntiteAdministratifVo.detaillesBudgetVo.reliquatReel);
+                let nvReliquatBudgetEntiteAdminEstimatif: number = parseFloat(bea.detaillesBudgetVo.creditOuvertEstimatif) + parseFloat(bcb.budgetEntiteAdministratifVo.detaillesBudgetVo.reliquatEstimatif);
                 let budgetCompteBudgitaireClone: BudgetCompteBudgitaireVo = new BudgetCompteBudgitaireVo(bcb.id, bcb.referenceCompteBudgitaire);
                 budgetCompteBudgitaireClone.detaillesBudgetVo = this._detaillesBudgetVo3;
-                budgetCompteBudgitaireClone.detaillesBudgetVo.id = id;
-                //budgetCompteBudgitaireClone.compteBudgitaireVo=this._compteBudgitaireCreate;
-                if (bea.budgetCompteBudgitaireVo == null) {
-                  bea.budgetCompteBudgitaireVo = [];
+                if (nvReliquatBudgeEntiteAdminReel < parseFloat(this._detaillesBudgetVo3.creditOuvertReel)
+                  || nvReliquatBudgetEntiteAdminEstimatif < parseFloat(this._detaillesBudgetVo3.reliquatEstimatif)) {
+                  Swal({
+                    type: 'error',
+                    title: 'Erreur',
+                    text: 'Crédit ouvert reel/estimatif de budget entite administratif est insuffissant!'
+                  });
+                } else if (parseFloat(budgetCompteBudgitaireClone.detaillesBudgetVo.creditOuvertReel) < reelConsomme
+                  || parseFloat(budgetCompteBudgitaireClone.detaillesBudgetVo.reliquatEstimatif) < estimatifConsomme) {
+                  Swal({
+                    type: 'error',
+                    title: 'Erreur',
+                    text: 'Il faut entrer un credit superieur au égale à ' + estimatifConsomme
+                  });
+                } else {
+                  bcb.detaillesBudgetVo.creditOuvertReel = this._detaillesBudgetVo3.creditOuvertReel;
+                  bcb.detaillesBudgetVo.creditOuvertEstimatif = this._detaillesBudgetVo3.creditOuvertEstimatif;
+                  bcb.detaillesBudgetVo.engagePaye = this._detaillesBudgetVo3.engagePaye;
+                  bcb.detaillesBudgetVo.engageNonPaye = this._detaillesBudgetVo3.engageNonPaye;
+                  //budgetCompteBudgitaireClone.compteBudgitaireVo=this._compteBudgitaireCreate;
+                  if (bea.budgetCompteBudgitaireVo == null) {
+                    bea.budgetCompteBudgitaireVo = [];
+                  }
+                  budgetCompteBudgitaireClone.detaillesBudgetVo = bcb.detaillesBudgetVo;
+                  bea.budgetCompteBudgitaireVo.push(budgetCompteBudgitaireClone);
                 }
-                bea.budgetCompteBudgitaireVo.push(budgetCompteBudgitaireClone);
-                console.log(this._budgetFaculteCreate);
-                //console.log(bsp.budgetEntiteAdministratifVo);
-                //if (beaFind.budgetCompteBudgitaireVo==null){beaFind.budgetCompteBudgitaireVo=[];}
-                //console.log(beaFind);
-                //beaFind.budgetCompteBudgitaireVo.push(budgetCompteBudgitaireClone);
-                //console.log(this._budgetFaculteCreate);
+                budgetCompteBudgitaireClone = new BudgetCompteBudgitaireVo();
               }
             });
           }
         });
-        this._detaillesBudgetVo3 = new DetaillesBudget();
-        //this._compteBudgitaireCreate=new CompteBudgitaireVo();
       }
     });
+    this._detaillesBudgetVo3 = new DetaillesBudget();
   }
 
   public selectedBsp(bsp:BudgetSousProjetVo){

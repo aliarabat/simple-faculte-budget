@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BudgetEntiteAdministratifVo} from '../../controller/model/budget/budget-entite-administratif.model';
 import {BudgetService} from '../../controller/service/budget.service';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-budget-entite-administratif',
@@ -9,9 +10,7 @@ import {BudgetService} from '../../controller/service/budget.service';
 })
 export class BudgetEntiteAdministratifComponent implements OnInit {
 
-  private _beasNoInDb: Array<BudgetEntiteAdministratifVo> = [];
   private _selectedBea: BudgetEntiteAdministratifVo = new BudgetEntiteAdministratifVo();
-  private _beas:Array<BudgetEntiteAdministratifVo>=[];
   private _budgetEntiteAdministratifInfo:BudgetEntiteAdministratifVo=new BudgetEntiteAdministratifVo();
 
   constructor(private budgetService: BudgetService) {
@@ -24,18 +23,10 @@ export class BudgetEntiteAdministratifComponent implements OnInit {
   public tableBudgetEntiteAdministratifInfo(bea:BudgetEntiteAdministratifVo){
     this.budgetEntiteAdministratifInfo=bea;
   }
-  get beasNoInDb(): Array<BudgetEntiteAdministratifVo> {
-    return this._beasNoInDb;
-  }
 
   public get budgetEntiteAdmin() {
     return this.budgetService.budgetEntiteAdministratifCreate;
   }
-
-  set beasNoInDb(value: Array<BudgetEntiteAdministratifVo>) {
-    this._beasNoInDb = value;
-  }
-
 
   public update() {
     this.budgetService.updateBudgetEntiteAdministratif(this._budgetEntiteAdministratifInfo.referenceEntiteAdministratif);
@@ -65,7 +56,6 @@ export class BudgetEntiteAdministratifComponent implements OnInit {
     return this.budgetService.findAllByAnneeAndBudgetSousProjetAndBudgetEntitiAdmin();
   }
 
-
   public get entiteAdministratif(){
     return this.budgetService.allEntiteAdministratif;
   }
@@ -75,10 +65,6 @@ export class BudgetEntiteAdministratifComponent implements OnInit {
   }
   public addBudgetEntiteAdmin() {
     return this.budgetService.addBudgetEntiteAdministratif();
-  }
-
-  set selectedBea(value) {
-    this._selectedBea = value;
   }
 
   public getBeaInfos(bear: BudgetEntiteAdministratifVo) {
@@ -91,5 +77,20 @@ export class BudgetEntiteAdministratifComponent implements OnInit {
 
   set budgetEntiteAdministratifInfo(value: BudgetEntiteAdministratifVo) {
     this._budgetEntiteAdministratifInfo = value;
+  }
+
+  public downloadPdf(bea: BudgetEntiteAdministratifVo) {
+    let doc = new jsPDF();
+    doc.text('Annee ' + bea.budgetSousProjetVo.budgetFaculteVo.annee, 10, 20);
+    doc.text('Reference sous projet ' + bea.budgetSousProjetVo.referenceSousProjet, 10, 30);
+    doc.text('Reference entite administratif ' + bea.referenceEntiteAdministratif, 10, 40);
+    doc.text('Antidident : ' + bea.detaillesBudgetVo.antecedent, 10, 50);
+    doc.text('Credit ouvert estimatif : ' + bea.detaillesBudgetVo.creditOuvertEstimatif, 10, 60);
+    doc.text('Credit ouvert reel : ' + bea.detaillesBudgetVo.creditOuvertReel, 10, 70);
+    doc.text('Reliquat reel : ' + bea.detaillesBudgetVo.reliquatReel, 10, 80);
+    doc.text('Reliquat estimatif  : ' + bea.detaillesBudgetVo.reliquatEstimatif, 10, 90);
+    doc.text('Engagé payé : ' + bea.detaillesBudgetVo.engagePaye, 10, 100);
+    doc.text('Engagé engage non payé : ' + bea.detaillesBudgetVo.engageNonPaye, 10, 110);
+    doc.save('budget-faculte+' + bea.budgetSousProjetVo.budgetFaculteVo.annee + bea.id + '.pdf');
   }
 }

@@ -13,31 +13,28 @@
             <th>code compte budgitaire</th>
           </tr>
           </thead>
-          <tbody>
-          <tr *ngIf="bfCreate.budgetSousProjetVo==null">
+          <!--<tr *ngIf="bfCreate.budgetSousProjetVo==null">
             <td class="font-italic text-center" colspan="3">No item found</td>
-          </tr>
-          <!--<ng-container *ngFor="let bsp of bfCreate.budgetSousProjetVo" >
+          </tr>-->
+          <tbody *ngFor="let bsp of bfCreate.budgetSousProjetVo">
             <tr>
-              <td rowspan="bsp.budgetEntiteAdministratifVo.length">{{bsp.referenceSousProjet}}</td>
-              <td rowspan="bsp.budgetEntiteAdministratifVo[0].budgetCompteBudgitaireVo.length">{{bsp.budgetEntiteAdministratifVo[0]}}</td>
-              <td>{{bsp.budgetEntiteAdministratifVo[0].budgetCompteBudgitaireVo[0].referenceCompteBudgitaire}}</td>
+              <td rowspan="bsp.budgetEntiteAdministratifVo.length"></td>
+              <td
+                rowspan="bsp.budgetEntiteAdministratifVo[0].budgetCompteBudgitaireVo.length">{{bsp.referenceSousProjet}}</td>
+              <td>{{bsp.budgetEntiteAdministratifVo[0].budgetCompteBudgitaireVo[0].compteBudgitaireVo.code}}</td>
             </tr>
-            <ng-container *ngFor="let bcb of bsp.budgetEntiteAdministratifVo[0].budgetCompteBudgitaireVo; let i= index;">
-              <tr *ngIf="i!=0">
-                <td>{{bcb.referenceCompteBudgitaire}}</td>
-              </tr>
-            </ng-container>
-            <ng-container *ngFor="let bea of bsp.budgetEntiteAdministratifVo; let i= index;">
+            <tr *ngFor="let bcb of bsp.budgetEntiteAdministratifVo[0].budgetCompteBudgitaireVo; let i= index;">
+              <td *ngIf="i!=0">{{bcb.compteBudgitaireVo.code}}</td>
+            </tr>
+            <div *ngFor="let bea of bsp.budgetEntiteAdministratifVo; let i=index;">
               <tr *ngIf="i!=0">
                 <td rowspan="bea.budgetCompteBudgitaireVo.length">{{bea.referenceEntiteAdministratif}}</td>
-                <td>{{bea.budgetCompteBudgitaireVo[0].referenceCompteBudgitaire}}</td>
+                <td>{{bea.budgetCompteBudgitaireVo[0].compteBudgitaireVo.code}}</td>
               </tr>
-              <tr *ngFor="let bcb1 of bea.budgetCompteBudgitaireVo; let  i=index;">
-                <td *ngIf="i!=0">{{bcb1.referenceCompteBudgitaire}}</td>
+              <tr *ngFor="let bcb of bea.budgetCompteBudgitaireVo; let i=index;">
+                <td *ngIf="i!=0">{{bcb.compteBudgitaireVo.code}}</td>
               </tr>
-            </ng-container>
-          </ng-container>-->
+            </div>
           </tbody>
         </table>
         <button class="btn btn-outline-primary btn-block" (click)="saveAll()">Confirmation</button>
